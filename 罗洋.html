@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>罗洋 - 百度百科</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+            background: #f5f5f5;
+            color: #333;
+            line-height: 1.8;
+        }
+        
+        .header {
+            background: #fff;
+            border-bottom: 1px solid #e0e0e0;
+            padding: 10px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+        
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            color: #2932e1;
+            letter-spacing: 2px;
+        }
+        
+        .search-box {
+            flex: 1;
+            max-width: 500px;
+            display: flex;
+        }
+        
+        .search-box input {
+            flex: 1;
+            padding: 8px 15px;
+            border: 2px solid #2932e1;
+            border-right: none;
+            border-radius: 4px 0 0 4px;
+            font-size: 14px;
+            outline: none;
+        }
+        
+        .search-box button {
+            padding: 8px 25px;
+            background: #2932e1;
+            color: #fff;
+            border: none;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        
+        .main-container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 0 20px;
+            display: flex;
+            gap: 20px;
+        }
+        
+        .sidebar {
+            width: 200px;
+            position: sticky;
+            top: 70px;
+            height: fit-content;
+        }
+        
+        .sidebar-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: #333;
+            padding: 10px 0;
+            border-bottom: 2px solid #2932e1;
+            margin-bottom: 10px;
+        }
+        
+        .sidebar ul {
+            list-style: none;
+        }
+        
+        .sidebar li {
+            padding: 8px 15px;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: all 0.3s;
+            font-size: 14px;
+        }
+        
+        .sidebar li:hover {
+            background: #e8eaf6;
+            color: #2932e1;
+        }
+        
+        .sidebar li.active {
+            background: #2932e1;
+            color: #fff;
+        }
+        
+        .content {
+            flex: 1;
+            background: #fff;
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        
+        .page-title {
+            font-size: 32px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 5px;
+        }
+        
+        .page-subtitle {
+            font-size: 14px;
+            color: #999;
+            margin-bottom: 20px;
+        }
+        
+        .page-subtitle span {
+            margin-right: 15px;
+        }
+        
+        .info-card {
+            float: right;
+            width: 270px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 0 0 20px 20px;
+            background: #fafafa;
+        }
+        
+        .info-card-img {
+            width: 100%;
+            height: 320px;
+            object-fit: cover;
+            border-radius: 4px;
+            margin-bottom: 15px;
+            background: #e0e0e0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #999;
+            font-size: 14px;
+        }
+        
+        .info-card-title {
+            font-size: 18px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 15px;
+            color: #333;
+        }
+        
+        .info-item {
+            display: flex;
+            padding: 6px 0;
+            border-bottom: 1px solid #eee;
+            font-size: 13px;
+        }
+        
+        .info-item:last-child {
+            border-bottom: none;
+        }
+        
+        .info-label {
+            width: 80px;
+            color: #666;
+            flex-shrink: 0;
+        }
+        
+        .info-value {
+            color: #333;
+            flex: 1;
+        }
+        
+        .section {
+            margin-bottom: 30px;
+            clear: both;
+        }
+        
+        .section-title {
+            font-size: 22px;
+            font-weight: bold;
+            color: #333;
+            padding: 10px 0;
+            border-bottom: 2px solid #2932e1;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .section-title::before {
+            content: "";
+            display: inline-block;
+            width: 6px;
+            height: 22px;
+            background: #2932e1;
+            margin-right: 10px;
+            border-radius: 2px;
+        }
+        
+        .section-content {
+            font-size: 15px;
+            color: #444;
+            text-align: justify;
+        }
+        
+        .section-content p {
+            margin-bottom: 12px;
+            text-indent: 2em;
+        }
+        
+        .experience-list {
+            list-style: none;
+        }
+        
+        .experience-item {
+            padding: 15px 0;
+            border-bottom: 1px dashed #e0e0e0;
+        }
+        
+        .experience-item:last-child {
+            border-bottom: none;
+        }
+        
+        .exp-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        
+        .exp-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .exp-time {
+            font-size: 13px;
+            color: #999;
+            background: #f0f0f0;
+            padding: 2px 10px;
+            border-radius: 12px;
+        }
+        
+        .exp-position {
+            font-size: 14px;
+            color: #2932e1;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        
+        .exp-desc {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.8;
+        }
+        
+        .exp-desc li {
+            margin-bottom: 5px;
+            list-style-type: disc;
+            margin-left: 20px;
+        }
+        
+        .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .skill-tag {
+            padding: 6px 16px;
+            background: #e8eaf6;
+            color: #2932e1;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        
+        .honor-list {
+            list-style: none;
+        }
+        
+        .honor-item {
+            padding: 10px 0;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+        
+        .honor-icon {
+            width: 24px;
+            height: 24px;
+            background: #ffd700;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            flex-shrink: 0;
+        }
+        
+        .honor-text {
+            font-size: 14px;
+            color: #444;
+            line-height: 1.6;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 30px;
+            color: #999;
+            font-size: 13px;
+            background: #fff;
+            margin-top: 20px;
+            border-top: 1px solid #e0e0e0;
+        }
+        
+        .ref {
+            color: #2932e1;
+            font-size: 12px;
+            vertical-align: super;
+            cursor: pointer;
+        }
+        
+        .references {
+            background: #f9f9f9;
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+        
+        .references-title {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .references ol {
+            padding-left: 20px;
+            font-size: 13px;
+            color: #666;
+        }
+        
+        .references li {
+            margin-bottom: 5px;
+        }
+        
+        @media (max-width: 900px) {
+            .main-container {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+                position: static;
+            }
+            
+            .info-card {
+                float: none;
+                width: 100%;
+                margin: 0 0 20px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-inner">
+            <div class="logo">百度百科</div>
+            <div class="search-box">
+                <input type="text" value="罗洋" readonly>
+                <button>进入词条</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="main-container">
+        <div class="sidebar">
+            <div class="sidebar-title">目录</div>
+            <ul>
+                <li class="active">1 人物经历</li>
+                <li>1.1 教育经历</li>
+                <li>1.2 实习经历</li>
+                <li>2 个人成就</li>
+                <li>3 荣誉奖项</li>
+                <li>4 个人特长</li>
+                <li>5 人物评价</li>
+                <li>6 参考资料</li>
+            </ul>
+        </div>
+        
+        <div class="content">
+            <h1 class="page-title">罗洋</h1>
+            <div class="page-subtitle">
+                <span>国际商务硕士</span>
+                <span>浏览次数：1,286</span>
+                <span>编辑次数：3</span>
+                <span>最近更新：2025年6月</span>
+            </div>
+            
+            <div class="info-card">
+                <div class="info-card-img">
+                    [个人证件照]
+                </div>
+                <div class="info-card-title">罗洋</div>
+                <div class="info-item">
+                    <span class="info-label">性别</span>
+                    <span class="info-value">男</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">出生日期</span>
+                    <span class="info-value">2000年6月18日</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">出生地</span>
+                    <span class="info-value">四川省南充市</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">学历</span>
+                    <span class="info-value">硕士研究生</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">毕业院校</span>
+                    <span class="info-value">北部湾大学</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">专业</span>
+                    <span class="info-value">国际商务</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">政治面貌</span>
+                    <span class="info-value">共青团员</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">婚姻状况</span>
+                    <span class="info-value">未婚</span>
+                </div>
+            </div>
+            
+            <div class="section-content" style="margin-bottom: 25px;">
+                <p><strong>罗洋</strong>（2000年6月18日—），男，汉族，四川省南充市人，国际商务专业硕士研究生。本科毕业于四川大学锦江学院国际经济与贸易专业，硕士毕业于北部湾大学国际商务专业。在校期间积极参与学术研究与实践活动，发表论文3篇，参与撰写专著3部，撰写咨政建言2篇，参与课题2项，多次获得学业奖学金，并担任研究生会经管学院副会长等学生干部职务。<span class="ref">[1]</span></p>
+            </div>
+            
+            <div class="section">
+                <h2 class="section-title">人物经历</h2>
+                
+                <h3 style="font-size: 18px; color: #333; margin: 20px 0 15px 0; padding-left: 10px; border-left: 3px solid #2932e1;">教育经历</h3>
+                
+                <ul class="experience-list">
+                    <li class="experience-item">
+                        <div class="exp-header">
+                            <span class="exp-title">四川大学锦江学院</span>
+                            <span class="exp-time">2018.09 - 2022.06</span>
+                        </div>
+                        <div class="exp-position">国际经济与贸易 · 本科 · 全日制</div>
+                        <div class="exp-desc">
+                            <ul>
+                                <li>主修国际贸易理论与实务、世界经济学、西方经济学、国际结算、电子商务、管理学基础、会计学基础等课程</li>
+                                <li>四年平均GPA 3.3，通过英语六级考试</li>
+                                <li>获得2019学年三等学业奖学金</li>
+                                <li>任经管学院学科竞赛部副部长</li>
+                            </ul>
+                        </div>
+                    </li>
+                    
+                    <li class="experience-item">
+                        <div class="exp-header">
+                            <span class="exp-title">北部湾大学</span>
+                            <span class="exp-time">2022.09 - 2025.06</span>
+                        </div>
+                        <div class="exp-position">国际商务 · 硕士研究生 · 全日制</div>
+                        <div class="exp-desc">
+                            <ul>
+                                <li>主修国际贸易实务、管理学原理、商务英语、电子商务、国际市场营销等课程</li>
+                                <li>发表论文3篇，参与撰写专著3部，撰写咨政建言2篇，参与课题2项</li>
+                                <li>平均GPA 3.9，专业前10%</li>
+                                <li>获得"第九届全国大学生能源经济学术创意大赛"广西省三等奖</li>
+                                <li>获得2022学年一等学业奖学金、2023学年二等学业奖学金</li>
+                                <li>任研究生会经管学院副会长</li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+                
+                <h3 style="font-size: 18px; color: #333; margin: 25px 0 15px 0; padding-left: 10px; border-left: 3px solid #2932e1;">实习经历</h3>
+                
+                <ul class="experience-list">
+                    <li class="experience-item">
+                        <div class="exp-header">
+                            <span class="exp-title">上海驰马国际贸易有限公司</span>
+                            <span class="exp-time">2025.09 - 2025.12</span>
+                        </div>
+                        <div class="exp-position">总经理助理</div>
+                        <div class="exp-desc">
+                            <ul>
+                                <li>协助总经理管理销售支持部，作为产品经理精准对接客户需求与公司执行人员，保障订单高效高质完成</li>
+                                <li>负责统筹公司日程、会议等，对接内外部部门，督办决策落地，处理行政事务，提供信息支持</li>
+                                <li>作为执行经理代表企业参加"第113届全国糖酒商品交易会"、"第二十八届FHC上海环球食品展"、"ProWine国际葡萄酒与烈酒贸易展览会"、"珠海沃尔玛2026年供应商峰会"等大型展会</li>
+                                <li>负责展会前期联系设计、筹备布展，展会期间接待来宾、洽谈拓客，会后整理客户信息、跟进复盘</li>
+                            </ul>
+                        </div>
+                    </li>
+                    
+                    <li class="experience-item">
+                        <div class="exp-header">
+                            <span class="exp-title">新东方教育科技集团</span>
+                            <span class="exp-time">2024.05 - 2024.08</span>
+                        </div>
+                        <div class="exp-position">运营实习生</div>
+                        <div class="exp-desc">
+                            <ul>
+                                <li>负责国际游学部门团队的财务与运营状况，对接公司财务和内外部合作伙伴，财务报账、制定SOP，核对并报销所有账目</li>
+                                <li>负责处理办公室日程、系统管理、会议安排、文件整理、合同拟定，以及大型活动的外出支持等工作</li>
+                                <li>参与执行"2024财年苏州新东方学校破晓计划·新师训练营"，活动为期5天，人数达200余人，负责跟拍摄影、行程安排、活动执行、会场管理及应急处理等工作</li>
+                            </ul>
+                        </div>
+                    </li>
+                    
+                    <li class="experience-item">
+                        <div class="exp-header">
+                            <span class="exp-title">北部湾海洋发展研究中心</span>
+                            <span class="exp-time">2023.03 - 2023.07</span>
+                        </div>
+                        <div class="exp-position">助理研究员</div>
+                        <div class="exp-desc">
+                            <ul>
+                                <li>负责研究中心的行政运营事项，包括日常事务、专家接待、筹备会议、举办论坛等</li>
+                                <li>承担部分科研任务，包括撰写论文、专著、新闻稿、咨政建言等工作</li>
+                                <li>参与执行"2022中国海洋生态经济发展·钦州论坛"、"2023北部湾经济区智库论坛"等大型活动</li>
+                                <li>负责接待专家院士、安排行程活动、协助会场执行、处理突发事项等，获得优秀会务工作者奖励</li>
+                            </ul>
+                        </div>
+                    </li>
+                    
+                    <li class="experience-item">
+                        <div class="exp-header">
+                            <span class="exp-title">丹马士环球物流（上海）有限公司</span>
+                            <span class="exp-time">2022.06 - 2022.08</span>
+                        </div>
+                        <div class="exp-position">客户体验实习生</div>
+                        <div class="exp-desc">
+                            <ul>
+                                <li>负责交易前消息支持，通过电话和邮件对接国外客户</li>
+                                <li>处理客户遇到的问题，为客户创建公司交易系统的账号</li>
+                                <li>提供下单、订舱、排船等工作支持引导</li>
+                            </ul>
+                        </div>
+                    </li>
+                    
+                    <li class="experience-item">
+                        <div class="exp-header">
+                            <span class="exp-title">仪陇县纪律检查委员会</span>
+                            <span class="exp-time">2019.06 - 2019.08</span>
+                        </div>
+                        <div class="exp-position">行政助理</div>
+                        <div class="exp-desc">
+                            <ul>
+                                <li>负责办公室的日常工作，整理文件、接待访客、日程安排等</li>
+                                <li>对各下属机关单位的监督工作，包括党风廉政建设</li>
+                                <li>协助开展暗访督查，下乡检查基层党建工作等</li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            
+            <div class="section">
+                <h2 class="section-title">个人成就</h2>
+                <div class="section-content">
+                    <p>罗洋在学术研究方面表现突出，硕士研究生期间累计发表论文3篇，参与撰写专著3部，撰写咨政建言2篇，参与课题2项。其研究成果涉及国际商务、海洋经济等领域，为地方经济发展提供了一定的理论支持与实践参考。<span class="ref">[2]</span></p>
+                    <p>在实践层面，罗洋多次代表企业参加国内外大型行业展会，包括全国糖酒商品交易会、FHC上海环球食品展、ProWine国际葡萄酒与烈酒贸易展览会等，积累了丰富的商务洽谈与客户拓展经验。<span class="ref">[3]</span></p>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2 class="section-title">荣誉奖项</h2>
+                <ul class="honor-list">
+                    <li class="honor-item">
+                        <div class="honor-icon">★</div>
+                        <div class="honor-text">第九届全国大学生能源经济学术创意大赛广西省三等奖</div>
+                    </li>
+                    <li class="honor-item">
+                        <div class="honor-icon">★</div>
+                        <div class="honor-text">北部湾大学2022学年一等学业奖学金</div>
+                    </li>
+                    <li class="honor-item">
+                        <div class="honor-icon">★</div>
+                        <div class="honor-text">北部湾大学2023学年二等学业奖学金</div>
+                    </li>
+                    <li class="honor-item">
+                        <div class="honor-icon">★</div>
+                        <div class="honor-text">四川大学锦江学院2019学年三等学业奖学金</div>
+                    </li>
+                    <li class="honor-item">
+                        <div class="honor-icon">★</div>
+                        <div class="honor-text">北部湾海洋发展研究中心优秀会务工作者</div>
+                    </li>
+                </ul>
+            </div>
+            
+            <div class="section">
+                <h2 class="section-title">个人特长</h2>
+                <div class="skill-tags">
+                    <span class="skill-tag">英语六级</span>
+                    <span class="skill-tag">Office办公软件</span>
+                    <span class="skill-tag">国际贸易实务</span>
+                    <span class="skill-tag">商务英语</span>
+                    <span class="skill-tag">活动执行</span>
+                    <span class="skill-tag">摄影</span>
+                    <span class="skill-tag">篮球</span>
+                    <span class="skill-tag">汽车</span>
+                    <span class="skill-tag">露营</span>
+                </div>
+                <div class="section-content" style="margin-top: 15px;">
+                    <p>罗洋性格谦逊开朗、积极乐观，具备较强的学习和抗压能力。热爱篮球、摄影、汽车、露营等户外活动，在多次大型活动的执行中展现了出色的组织协调与应急处理能力。<span class="ref">[4]</span></p>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2 class="section-title">人物评价</h2>
+                <div class="section-content">
+                    <p>罗洋是一位兼具学术素养与实践能力的国际商务专业人才。在学术研究方面，其发表的论文和撰写的咨政建言展现了扎实的理论功底；在实习工作中，从总经理助理到运营实习生，从助理研究员到行政助理，多岗位的历练使其具备了全面的商务运营与行政管理能力。<span class="ref">[5]</span></p>
+                    <p>特别是在大型展会活动和培训项目的执行中，罗洋展现了出色的项目管理能力和团队协作精神，能够高效统筹资源、处理突发状况，保障活动顺利落地。<span class="ref">[6]</span></p>
+                </div>
+            </div>
+            
+            <div class="references">
+                <div class="references-title">参考资料</div>
+                <ol>
+                    <li>罗洋个人简历（2025年6月）</li>
+                    <li>北部湾大学研究生学术成果记录</li>
+                    <li>上海驰马国际贸易有限公司实习证明</li>
+                    <li>新东方教育科技集团实习评价</li>
+                    <li>北部湾海洋发展研究中心工作鉴定</li>
+                    <li>丹马士环球物流（上海）有限公司实习报告</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+    
+    <div class="footer">
+        <p>本页面为模拟百度百科风格的个人介绍页面，仅供展示使用</p>
+        <p style="margin-top: 5px;">© 2025 罗洋 · 联系方式：17790513801 · 3079077692@qq.com</p>
+    </div>
+</body>
+</html>
